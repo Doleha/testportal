@@ -38,24 +38,28 @@
       </div>
       <form id="signupForm">
         <div class="mb-3">
-          <label for="name" class="form-label">Full Name</label>
-          <input type="text" class="form-control" id="name" required />
+          <label for="firstName" class="form-label">First Name</label>
+          <input type="text" class="form-control" id="firstName" required />
+        </div>
+        <div class="mb-3">
+          <label for="lastName" class="form-label">Last Name</label>
+          <input type="text" class="form-control" id="lastName" required />
         </div>
         <div class="mb-3">
           <label for="username" class="form-label">Username</label>
           <input type="text" class="form-control" id="username" required />
         </div>
         <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" required />
+        </div>
+        <div class="mb-3">
           <label for="password" class="form-label">Password</label>
           <input type="password" class="form-control" id="password" required />
         </div>
         <div class="mb-3">
-          <label for="role" class="form-label">Role</label>
-          <select class="form-select" id="role" required>
-            <option value="student">Student</option>
-            <option value="teacher">Teacher</option>
-            <option value="admin">Admin</option>
-          </select>
+          <label for="grade" class="form-label">Grade Level</label>
+          <input type="text" class="form-control" id="grade" required />
         </div>
         <button type="submit" class="btn btn-success w-100">Sign Up</button>
         <div class="text-center mt-3">
@@ -68,15 +72,21 @@
   <script>
     document.getElementById('signupForm').addEventListener('submit', async function (e) {
       e.preventDefault();
-      const name = document.getElementById('name').value;
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
-      const role = document.getElementById('role').value;
+      const payload = {
+        first_name: document.getElementById('firstName').value,
+        last_name: document.getElementById('lastName').value,
+        username: document.getElementById('username').value,
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value,
+        grade_level: document.getElementById('grade').value
+      };
+
       const res = await fetch('http://localhost:5678/webhook/register-user', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, username, password, role })
+        body: JSON.stringify(payload)
       });
+
       const data = await res.json();
       if (data.success) {
         alert('Registration successful! Redirecting to login.');
