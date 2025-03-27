@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Testing Portal - Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(to right, #4e54c8, #8f94fb);
+      color: #333;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .login-box {
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 40px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+    .login-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .login-header h2 {
+      color: #4e54c8;
+    }
+    .info-box {
+      background-color: #f8f9fa;
+      padding: 30px;
+      border-radius: 10px;
+    }
+    .logo-img {
+      width: 100px;
+      margin-bottom: 20px;
+    }
+    .form-control:focus {
+      box-shadow: 0 0 0 0.2rem rgba(78, 84, 200, 0.25);
+    }
+  </style>
+</head>
+<body>
+  <div class="container-fluid vh-100 d-flex align-items-center justify-content-center">
+    <div class="row w-100">
+      <div class="col-md-6 d-flex justify-content-center align-items-center">
+        <div class="login-box w-75">
+          <div class="login-header">
+            <img src="https://via.placeholder.com/100x100?text=Logo" alt="Logo" class="logo-img">
+            <h2>Student Testing Portal</h2>
+            <p class="text-muted">Sign in to access your account</p>
+          </div>
+          <form id="loginForm">
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" required>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Sign In</button>
+            <div class="text-center mt-3">
+              <small>Don’t have an account? <a href="/signup">Sign up</a></small>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="col-md-6 d-none d-md-flex align-items-center justify-content-center">
+        <div class="info-box text-center">
+          <h2 class="mb-3">Welcome to the Student Testing Portal</h2>
+          <p class="mb-4">Access your personalized learning experience with adaptive testing, detailed explanations, and performance tracking.</p>
+          <img src="https://via.placeholder.com/400x300?text=Student+Testing+Portal" alt="Illustration" class="img-fluid">
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const res = await fetch('http://localhost:5678/webhook/process-login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+      const data = await res.json();
+      if (data.success) {
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('userId', data.userId);
+        localStorage.setItem('userRole', data.role);
+        localStorage.setItem('userName', data.name);
+        if (data.role === 'student') {
+          window.location.href = '/dashboard?token=' + data.token;
+        } else if (data.role === 'teacher') {
+          window.location.href = '/teacher-dashboard?token=' + data.token;
+        } else {
+          window.location.href = '/admin-dashboard?token=' + data.token;
+        }
+      } else {
+        alert(data.message || 'Login failed');
+      }
+    });
+  </script>
+</body>
+</html>
+
