@@ -84,19 +84,20 @@
         body: JSON.stringify({ username, password })
       });
       const data = await res.json();
-      if (data.success) {
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('userId', data.userId);
-        localStorage.setItem('userRole', data.role);
-        localStorage.setItem('userName', data.name);
-        if (data.role === 'student') {
-          window.location.href = '/dashboard?token=' + data.token;
-        } else if (data.role === 'teacher') {
-          window.location.href = '/teacher-dashboard?token=' + data.token;
-        } else {
-          window.location.href = '/admin-dashboard?token=' + data.token;
-        }
+    if (data.success) {
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('userId', data.userId);
+      localStorage.setItem('userRole', data.role);
+      localStorage.setItem('userName', data.name);
+
+      if (data.role === 'student') {
+        window.location.href = '/testportal/dashboard.html?token=' + data.token; // Updated for dashboard
+      } else if (data.role === 'teacher') {
+        window.location.href = '/teacher-dashboard?token=' + data.token;
       } else {
+        window.location.href = '/admin-dashboard?token=' + data.token;
+      }
+    } else {
         alert(data.message || 'Login failed');
       }
     });
