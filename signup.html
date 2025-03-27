@@ -59,7 +59,7 @@
         </div>
         <button type="submit" class="btn btn-success w-100">Sign Up</button>
         <div class="text-center mt-3">
-          <small>Already have an account? <a href="https://doleha.github.io/testportal/login.html">Login here</a></small>
+          <small>Already have an account? <a href="/testportal/login.html">Login here</a></small>
         </div>
       </form>
     </div>
@@ -80,7 +80,7 @@
       const data = await res.json();
       if (data.success) {
         alert('Registration successful! Redirecting to login.');
-        window.location.href = '/login.html';
+        window.location.href = '/testportal/login.html';
       } else {
         alert(data.message || 'Registration failed.');
       }
