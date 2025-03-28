@@ -69,40 +69,42 @@
     </div>
   </div>
 
-  <script>
-    document.getElementById('signupForm').addEventListener('submit', async function (e) {
-      e.preventDefault();
+<script>
+  document.getElementById('signupForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
 
-      const payload = {
-        first_name: document.getElementById('firstName').value,
-        last_name: document.getElementById('lastName').value,
-        username: document.getElementById('username').value,
-        email: document.getElementById('email').value,
-        password: document.getElementById('password').value,
-        grade_level: document.getElementById('grade').value
-      };
+    const payload = {
+      action: 'register', // Added action field to specify this is a register request
+      first_name: document.getElementById('firstName').value,
+      last_name: document.getElementById('lastName').value,
+      username: document.getElementById('username').value,
+      email: document.getElementById('email').value,
+      password: document.getElementById('password').value,
+      grade_level: document.getElementById('grade').value
+    };
 
-      try {
-        const res = await fetch('http://localhost:5678/webhook/api', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
+    try {
+      const res = await fetch('http://localhost:5678/webhook/api', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
 
-        const data = await res.json();
+      const data = await res.json();
 
-        if (data.success) {
-          alert('Registration successful! Redirecting to login.');
-          window.location.href = '/testportal/login.html';
-        } else {
-          alert(data.message || 'Registration failed.');
-        }
-      } catch (err) {
-        console.error('Fetch or JSON parse error:', err);
-        alert('Something went wrong. Please try again.');
+      if (data.success) {
+        alert('Registration successful! Redirecting to login.');
+        window.location.href = '/testportal/login.html'; // Updated redirection path
+      } else {
+        alert(data.message || 'Registration failed.');
       }
-    });
-  </script>
+    } catch (err) {
+      console.error('Fetch or JSON parse error:', err);
+      alert('Something went wrong. Please try again.');
+    }
+  });
+</script>
+
 </body>
 </html>
 

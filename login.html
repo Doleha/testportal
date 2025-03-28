@@ -73,17 +73,25 @@
       </div>
     </div>
   </div>
+
 <script>
   document.getElementById('loginForm').addEventListener('submit', async function (e) {
     e.preventDefault();
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
 
-    // Update the URL here to match the Webhook path in n8n
+    // Add the action field to specify login
+    const payload = {
+      action: 'login',
+      username,
+      password
+    };
+
+    // Send the request to the parent workflow
     const res = await fetch('http://localhost:5678/webhook/api', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
+      body: JSON.stringify(payload)
     });
 
     const data = await res.json();
