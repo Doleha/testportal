@@ -80,7 +80,7 @@
     const password = document.getElementById('password').value;
 
     // Update the URL here to match the Webhook path in n8n
-    const res = await fetch('http://localhost:5678/webhook/login', {
+    const res = await fetch('http://localhost:5678/webhook/api', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password })

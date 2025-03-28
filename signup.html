@@ -83,7 +83,7 @@
       };
 
       try {
-        const res = await fetch('http://localhost:5678/webhook/register-user', {
+        const res = await fetch('http://localhost:5678/webhook/api', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
