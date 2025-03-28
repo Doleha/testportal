@@ -77,21 +77,19 @@
 <script>
   document.getElementById('loginForm').addEventListener('submit', async function (e) {
     e.preventDefault();
+
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
 
-    // Add the action field to specify login
-    const payload = {
-      action: 'login',
-      username,
-      password
-    };
-
-    // Send the request to the parent workflow
+    // Pass the action field for login
     const res = await fetch('http://localhost:5678/webhook/api', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+      body: JSON.stringify({
+        username, 
+        password,
+        action: 'login' // Action for login
+      })
     });
 
     const data = await res.json();

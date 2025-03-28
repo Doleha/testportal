@@ -74,13 +74,13 @@
     e.preventDefault();
 
     const payload = {
-      action: 'register', // Added action field to specify this is a register request
       first_name: document.getElementById('firstName').value,
       last_name: document.getElementById('lastName').value,
       username: document.getElementById('username').value,
       email: document.getElementById('email').value,
       password: document.getElementById('password').value,
-      grade_level: document.getElementById('grade').value
+      grade_level: document.getElementById('grade').value,
+      action: 'register' // Pass the action to indicate this is a signup
     };
 
     try {
@@ -94,7 +94,7 @@
 
       if (data.success) {
         alert('Registration successful! Redirecting to login.');
-        window.location.href = '/testportal/login.html'; // Updated redirection path
+        window.location.href = '/testportal/login.html';
       } else {
         alert(data.message || 'Registration failed.');
       }
@@ -104,7 +104,6 @@
     }
   });
 </script>
-
 </body>
 </html>
 
