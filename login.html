@@ -73,17 +73,21 @@
       </div>
     </div>
   </div>
-  <script>
-    document.getElementById('loginForm').addEventListener('submit', async function (e) {
-      e.preventDefault();
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
-      const res = await fetch('http://localhost:5678/webhook/process-login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
-      });
-      const data = await res.json();
+<script>
+  document.getElementById('loginForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    // Update the URL here to match the Webhook path in n8n
+    const res = await fetch('http://localhost:5678/webhook/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
+
+    const data = await res.json();
+
     if (data.success) {
       localStorage.setItem('token', data.token);
       localStorage.setItem('userId', data.userId);
@@ -91,17 +95,18 @@
       localStorage.setItem('userName', data.name);
 
       if (data.role === 'student') {
-        window.location.href = '/testportal/dashboard.html?token=' + data.token; // Updated for dashboard
+        window.location.href = '/testportal/dashboard.html?token=' + data.token;
       } else if (data.role === 'teacher') {
         window.location.href = '/teacher-dashboard?token=' + data.token;
       } else {
         window.location.href = '/admin-dashboard?token=' + data.token;
       }
     } else {
-        alert(data.message || 'Login failed');
-      }
-    });
-  </script>
+      alert(data.message || 'Login failed');
+    }
+  });
+</script>
+
 </body>
 </html>
 
