@@ -103,7 +103,7 @@
       localStorage.setItem('userName', data.name);
 
       if (data.role === 'student') {
-        window.location.href = '/testportal/dashboard.html?token=' + data.token;
+        window.location.href = '/testportal/dashboard/';
       } else if (data.role === 'teacher') {
         window.location.href = '/teacher-dashboard?token=' + data.token;
       } else {
