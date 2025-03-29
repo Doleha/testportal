@@ -59,7 +59,7 @@
             </div>
             <button type="submit" class="btn btn-primary w-100">Sign In</button>
             <div class="text-center mt-3">
-              <small>Don’t have an account? <a href="/testportal/signup">Sign up</a></small>
+              <small>Don't have an account? <a href="/testportal/signup">Sign up</a></small>
             </div>
           </form>
         </div>
@@ -82,13 +82,15 @@
     const password = document.getElementById('password').value;
 
     // Pass the action field for login
-    const res = await fetch('http://localhost:5678/webhook/api', {
+    const res = await fetch('http://localhost:5678/webhook/frontend', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        username, 
-        password,
-        action: 'login' // Action for login
+        action: 'login', // Action for login
+        params: {
+          username, 
+          password
+        }
       })
     });
 
@@ -115,4 +117,3 @@
 
 </body>
 </html>
-

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Testing Portal - Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="spa_dashboard.css">
+  <style>
+    body {
+      background: linear-gradient(to right, #2b5876, #4e4376);
+      color: #333;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+    }
+    
+    .dashboard-container {
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      margin-top: 50px;
+      margin-bottom: 50px;
+    }
+    
+    .dashboard-header {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #4e4376;
+    }
+    
+    .action-card {
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .action-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .action-card h5 {
+      color: #2b5876;
+    }
+    
+    .btn-action {
+      width: 100%;
+      margin-top: 15px;
+    }
+    
+    .btn-start {
+      background-color: #28a745;
+      border-color: #28a745;
+    }
+    
+    .btn-report {
+      background-color: #17a2b8;
+      border-color: #17a2b8;
+    }
+    
+    .btn-settings {
+      background-color: #6f42c1;
+      border-color: #6f42c1;
+    }
+    
+    .btn-update {
+      background-color: #fd7e14;
+      border-color: #fd7e14;
+    }
+    
+    .loading-spinner {
+      display: none;
+      text-align: center;
+      padding: 50px;
+    }
+    
+    .user-welcome {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 10px 20px;
+      border-radius: 30px;
+      color: white;
+      margin-bottom: 20px;
+    }
+    
+    #timer {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+    
+    .nav-tabs {
+      margin-bottom: 20px;
+    }
+    
+    .nav-tabs .nav-link {
+      color: #4e4376;
+    }
+    
+    .nav-tabs .nav-link.active {
+      color: #2b5876;
+      font-weight: bold;
+    }
+    
+    .form-check {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Main Container -->
+    <div class="dashboard-container">
+      <!-- Header Section -->
+      <div class="dashboard-header">
+        <h2>Student Dashboard</h2>
+        <div class="user-welcome" id="welcomeMessage">
+          Welcome back, <span id="userName">Student</span>!
+        </div>
+      </div>
+      
+      <!-- Navigation Section -->
+      <section id="navSection">
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a class="nav-link active" href="#" onclick="showView('homeSection')">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" onclick="showView('testSection')">Test</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" onclick="showView('reportSection')">Reports</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" onclick="showView('settingsSection')">Settings</a>
+          </li>
+          <li class="nav-item ms-auto">
+            <a class="nav-link text-danger" href="#" onclick="logout()">Logout</a>
+          </li>
+        </ul>
+      </section>
+      
+      <!-- Home Section -->
+      <section id="homeSection">
+        <div class="row mt-4">
+          <div class="col-md-6">
+            <div class="action-card">
+              <h5>Start a New Test</h5>
+              <p>Begin a new adaptive test session based on your grade level and subject preferences.</p>
+              <button class="btn btn-primary btn-action btn-start" onclick="prepareTest()">Start Test</button>
+            </div>
+          </div>
+          
+          <div class="col-md-6">
+            <div class="action-card">
+              <h5>View Report Card</h5>
+              <p>Check your performance metrics, progress, and areas for improvement.</p>
+              <button class="btn btn-primary btn-action btn-report" onclick="showView('reportSection'); loadReports();">View Report</button>
+            </div>
+          </div>
+          
+          <div class="col-md-6">
+            <div class="action-card">
+              <h5>View Settings</h5>
+              <p>View your current preferences and account settings.</p>
+              <button class="btn btn-primary btn-action btn-settings" onclick="showView('settingsSection'); loadSettings();">View Settings</button>
+            </div>
+          </div>
+          
+          <div class="col-md-6">
+            <div class="action-card">
+              <h5>Update Settings</h5>
+              <p>Change your grade level, subject preferences, and other settings.</p>
+              <button class="btn btn-primary btn-action btn-update" onclick="showView('settingsSection'); showSettingsForm();">Update Settings</button>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Test Section -->
+      <section id="testSection" style="display: none;">
+        <div class="test-header d-flex justify-content-between align-items-center mt-4 mb-3">
+          <h3>Active Test Session</h3>
+          <div id="timer" class="badge bg-primary p-2">Time left: 00:00</div>
+        </div>
+        
+        <div id="questionContainer" class="mb-4">
+          <!-- Questions will be rendered here -->
+        </div>
+        
+        <div class="d-flex justify-content-between mt-4">
+          <button class="btn btn-secondary" onclick="saveProgress()">Save Progress</button>
+          <button class="btn btn-primary" onclick="submitAnswers()">Submit Test</button>
+        </div>
+      </section>
+      
+      <!-- Report Section -->
+      <section id="reportSection" style="display: none;">
+        <h3 class="mt-4 mb-3">Your Performance Reports</h3>
+        <div id="reportContainer">
+          <!-- Report content will be displayed here -->
+        </div>
+      </section>
+      
+      <!-- Settings Section -->
+      <section id="settingsSection" style="display: none;">
+        <h3 class="mt-4 mb-3">Account Settings</h3>
+        
+        <div id="currentSettings" class="mb-4">
+          <!-- Current settings will be displayed here -->
+        </div>
+        
+        <div id="settingsForm" style="display: none;">
+          <h4>Update Your Settings</h4>
+          <form id="updateSettingsForm">
+            <div class="mb-3">
+              <label for="gradeLevel" class="form-label">Grade Level</label>
+              <select class="form-select" id="gradeLevel">
+                <option value="6">6th Grade</option>
+                <option value="7">7th Grade</option>
+                <option value="8">8th Grade</option>
+                <option value="9" selected>9th Grade</option>
+                <option value="10">10th Grade</option>
+                <option value="11">11th Grade</option>
+                <option value="12">12th Grade</option>
+              </select>
+            </div>
+            
+            <div class="mb-3">
+              <label for="subject" class="form-label">Preferred Subject</label>
+              <select class="form-select" id="subject">
+                <option value="Math" selected>Math</option>
+                <option value="Science">Science</option>
+                <option value="English">English</option>
+                <option value="History">History</option>
+              </select>
+            </div>
+            
+            <button type="button" class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
+            <button type="button" class="btn btn-secondary" onclick="cancelSettingsUpdate()">Cancel</button>
+          </form>
+        </div>
+      </section>
+      
+      <!-- Result Section -->
+      <section id="resultSection" style="display: none;">
+        <div class="mt-4" id="resultContainer">
+          <!-- Results will be displayed here -->
+        </div>
+      </section>
+      
+      <!-- Loading Spinner -->
+      <div class="loading-spinner" id="loadingSpinner">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-3">Loading your content...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- SPA Dashboard JS -->
+  <script src="spa_dashboard.js"></script>
+</body>
+</html>

@@ -1,1 +1,301 @@
-<!DOCTYPE html><html><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width"/><meta name="next-head-count" content="2"/><noscript data-n-css=""></noscript><script defer="" crossorigin="" nomodule="" src="/_next/static/chunks/polyfills-c67a75d1b6f99dc8.js"></script><script src="/_next/static/chunks/webpack-975f6a13f6da10a1.js" defer="" crossorigin=""></script><script src="/_next/static/chunks/framework-fae63b21a27d6472.js" defer="" crossorigin=""></script><script src="/_next/static/chunks/main-0766f72cbcde00a1.js" defer="" crossorigin=""></script><script src="/_next/static/chunks/pages/_app-c54702eb327175a3.js" defer="" crossorigin=""></script><script src="/_next/static/chunks/ee8b1517-178bd619c0f742bd.js" defer="" crossorigin=""></script><script src="/_next/static/chunks/815-fa6bba39ee2d130a.js" defer="" crossorigin=""></script><script src="/_next/static/chunks/966-4960584583ca4412.js" defer="" crossorigin=""></script><script src="/_next/static/chunks/pages/dashboard-044eb90977b50807.js" defer="" crossorigin=""></script><script src="/_next/static/8HSP72fD9FJMshjkMYt6J/_buildManifest.js" defer="" crossorigin=""></script><script src="/_next/static/8HSP72fD9FJMshjkMYt6J/_ssgManifest.js" defer="" crossorigin=""></script></head><body><div id="__next"><style data-emotion="css hpgf8j">.css-hpgf8j{padding:8px;}</style><div class="css-hpgf8j"><style data-emotion="css 1itv5e3">.css-1itv5e3{margin-bottom:4px;}</style><h2 class="chakra-heading css-1itv5e3">Loading dashboard...</h2><style data-emotion="css kdwx3d">.css-kdwx3d{overflow:hidden;position:relative;}</style><div class="css-kdwx3d"><style data-emotion="css 1demtxk animation-11lmxjq">.css-1demtxk{height:100%;position:absolute;will-change:left;min-width:50%;-webkit-animation:animation-11lmxjq 1s ease infinite normal none running;animation:animation-11lmxjq 1s ease infinite normal none running;}@-webkit-keyframes animation-11lmxjq{0%{left:-40%;}100%{left:100%;}}@keyframes animation-11lmxjq{0%{left:-40%;}100%{left:100%;}}</style><div style="width:0%" data-indeterminate="" aria-valuemax="100" aria-valuemin="0" role="progressbar" class="css-1demtxk"></div></div></div></div><script id="__NEXT_DATA__" type="application/json" crossorigin="">{"props":{"pageProps":{}},"page":"/dashboard","query":{},"buildId":"8HSP72fD9FJMshjkMYt6J","nextExport":true,"autoExport":true,"isFallback":false,"scriptLoader":[]}</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Testing Portal - Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(to right, #2b5876, #4e4376);
+      color: #333;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+    }
+    .dashboard-container {
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      margin-top: 50px;
+      margin-bottom: 50px;
+    }
+    .dashboard-header {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #4e4376;
+    }
+    .action-card {
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .action-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+    .action-card h5 {
+      color: #2b5876;
+    }
+    .btn-action {
+      width: 100%;
+      margin-top: 15px;
+    }
+    .btn-start {
+      background-color: #28a745;
+      border-color: #28a745;
+    }
+    .btn-report {
+      background-color: #17a2b8;
+      border-color: #17a2b8;
+    }
+    .btn-settings {
+      background-color: #6f42c1;
+      border-color: #6f42c1;
+    }
+    .btn-update {
+      background-color: #fd7e14;
+      border-color: #fd7e14;
+    }
+    .btn-logout {
+      background-color: #dc3545;
+      border-color: #dc3545;
+    }
+    .loading-spinner {
+      display: none;
+      text-align: center;
+      padding: 50px;
+    }
+    .user-welcome {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 10px 20px;
+      border-radius: 30px;
+      color: white;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="dashboard-container">
+      <div class="dashboard-header">
+        <h2>Student Dashboard</h2>
+        <div class="user-welcome" id="welcomeMessage">
+          Welcome back, <span id="userName">Student</span>!
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-6">
+          <div class="action-card">
+            <h5>Start a New Test</h5>
+            <p>Begin a new adaptive test session based on your grade level and subject preferences.</p>
+            <button class="btn btn-primary btn-action btn-start" onclick="startTest()">Start Test</button>
+          </div>
+        </div>
+        
+        <div class="col-md-6">
+          <div class="action-card">
+            <h5>View Report Card</h5>
+            <p>Check your performance metrics, progress, and areas for improvement.</p>
+            <button class="btn btn-primary btn-action btn-report" onclick="fetchReport()">View Report</button>
+          </div>
+        </div>
+        
+        <div class="col-md-6">
+          <div class="action-card">
+            <h5>View Settings</h5>
+            <p>View your current preferences and account settings.</p>
+            <button class="btn btn-primary btn-action btn-settings" onclick="fetchSettings()">View Settings</button>
+          </div>
+        </div>
+        
+        <div class="col-md-6">
+          <div class="action-card">
+            <h5>Update Settings</h5>
+            <p>Change your grade level, subject preferences, and other settings.</p>
+            <button class="btn btn-primary btn-action btn-update" onclick="updateSettings()">Update Settings</button>
+          </div>
+        </div>
+        
+        <div class="col-md-12">
+          <div class="action-card">
+            <h5>Logout</h5>
+            <p>Securely end your current session and return to the login page.</p>
+            <button class="btn btn-primary btn-action btn-logout" onclick="logout()">Logout</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="loading-spinner" id="loadingSpinner">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-3">Loading your content...</p>
+      </div>
+      
+      <div id="resultContainer" class="mt-4"></div>
+    </div>
+  </div>
+
+  <script>
+    // Check if user is logged in
+    document.addEventListener('DOMContentLoaded', function() {
+      const token = localStorage.getItem('token');
+      const userName = localStorage.getItem('userName');
+      
+      if (!token) {
+        window.location.href = '/testportal/login.html';
+        return;
+      }
+      
+      if (userName) {
+        document.getElementById('userName').textContent = userName;
+      }
+    });
+    
+    function showLoading() {
+      document.getElementById('loadingSpinner').style.display = 'block';
+      document.getElementById('resultContainer').innerHTML = '';
+    }
+    
+    function hideLoading() {
+      document.getElementById('loadingSpinner').style.display = 'none';
+    }
+    
+    function displayResult(title, data) {
+      const resultContainer = document.getElementById('resultContainer');
+      resultContainer.innerHTML = `
+        <div class="card">
+          <div class="card-header">${title}</div>
+          <div class="card-body">
+            <pre>${JSON.stringify(data, null, 2)}</pre>
+          </div>
+        </div>
+      `;
+    }
+
+    function startTest() {
+      showLoading();
+      fetch('http://localhost:5678/webhook/frontend', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'start_test',
+          params: { student_id: localStorage.getItem('userId') }
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        hideLoading();
+        displayResult('Test Started', data);
+        console.log('Test Started:', data);
+      })
+      .catch(err => {
+        hideLoading();
+        console.error('Error:', err);
+        alert('Failed to start test. Please try again.');
+      });
+    }
+
+    function fetchReport() {
+      showLoading();
+      fetch('http://localhost:5678/webhook/frontend', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'view_report',
+          params: { student_id: localStorage.getItem('userId') }
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        hideLoading();
+        displayResult('Report Card', data);
+        console.log('Report:', data);
+      })
+      .catch(err => {
+        hideLoading();
+        console.error('Error:', err);
+        alert('Failed to fetch report. Please try again.');
+      });
+    }
+
+    function fetchSettings() {
+      showLoading();
+      fetch('http://localhost:5678/webhook/frontend', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'fetch_settings',
+          params: { student_id: localStorage.getItem('userId') }
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        hideLoading();
+        displayResult('Settings', data);
+        console.log('Settings:', data);
+      })
+      .catch(err => {
+        hideLoading();
+        console.error('Error:', err);
+        alert('Failed to fetch settings. Please try again.');
+      });
+    }
+
+    function updateSettings() {
+      showLoading();
+      fetch('http://localhost:5678/webhook/frontend', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'update_settings',
+          params: {
+            student_id: localStorage.getItem('userId'),
+            grade_level: '9', // You can make this dynamic if you like
+            subject: 'Math'
+          }
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        hideLoading();
+        displayResult('Settings Updated', data);
+        console.log('Settings Updated:', data);
+      })
+      .catch(err => {
+        hideLoading();
+        console.error('Error:', err);
+        alert('Failed to update settings. Please try again.');
+      });
+    }
+
+    function logout() {
+      showLoading();
+      fetch('http://localhost:5678/webhook/frontend', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'logout',
+          params: { student_id: localStorage.getItem('userId') }
+        })
+      })
+      .then(() => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('userRole');
+        localStorage.removeItem('userName');
+        window.location.href = '/testportal/login.html';
+      })
+      .catch(err => {
+        hideLoading();
+        console.error('Error:', err);
+        alert('Failed to logout. Please try again.');
+      });
+    }
+  </script>
+</body>
+</html>
