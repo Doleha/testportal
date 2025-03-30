@@ -81,14 +81,13 @@
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
 
-    // Pass the action field for login
     const res = await fetch('http://localhost:5678/webhook/frontend', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        action: 'login', // Action for login
+        action: 'login',
         params: {
-          username, 
+          username,
           password
         }
       })
@@ -99,21 +98,15 @@
     if (data.success) {
       localStorage.setItem('token', data.token);
       localStorage.setItem('userId', data.userId);
-      localStorage.setItem('userRole', data.role);
       localStorage.setItem('userName', data.name);
 
-      if (data.role === 'student') {
-        window.location.href = '/testportal/dashboard/';
-      } else if (data.role === 'teacher') {
-        window.location.href = '/teacher-dashboard?token=' + data.token;
-      } else {
-        window.location.href = '/admin-dashboard?token=' + data.token;
-      }
+      window.location.href = 'dashboard/index.html';
     } else {
       alert(data.message || 'Login failed');
     }
   });
 </script>
+
 
 </body>
 </html>
